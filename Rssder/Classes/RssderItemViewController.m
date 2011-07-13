@@ -43,16 +43,6 @@ static NSString * const kDBFeedDescKey = @"desc";
     self.tableView.rowHeight = 55.0;
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    self.itemRowIDs = nil;
-}
-
-- (void)dealloc {
-    [super dealloc];
-    if(feedRecord) [feedRecord release];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
@@ -100,6 +90,28 @@ static NSString * const kDBFeedDescKey = @"desc";
      ];
     
     return cell;
+}
+
+// User selected a row in the table view
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // NSLog(@"%s: %d", __FUNCTION__, indexPath.row);
+    self.itemRecord = [rssDB getItemRow:[self.itemRowIDs objectAtIndex:indexPath.row]];
+    
+    // set up the web view, and push it onto the display
+    RssderWebViewController *webView = [[RssderWebViewController alloc] initWithNibName:@"RssderWebViewController" bundle:nil];
+    webView.feedItem = self.itemRecord;
+    [[self navigationController] pushViewController:webView animated:YES];
+    [webView release];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    self.itemRowIDs = nil;
+}
+
+- (void)dealloc {
+    [super dealloc];
+    if(feedRecord) [feedRecord release];
 }
 
 #pragma mark -

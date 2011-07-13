@@ -6,9 +6,9 @@
 //  Copyright 2011年 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "RSSDB.h"
-#import "BWUtilities.h"
+#import "RssderWebViewController.h"
 
 @interface RssderItemViewController : UITableViewController <NSXMLParserDelegate> {
     RSSDB *rssDB;
