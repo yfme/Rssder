@@ -24,6 +24,7 @@
                                   target:self
                                   action:@selector(actionAddButton)];
     self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
     [addButton release];
 }
 
@@ -198,6 +199,19 @@
     [itemViewController release];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self loadFeedIDsIfEmpty];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // must update the database before updating the tableView
+        // so that the tableView never has a row that's missing from the database
+        [rssDB deleteFeedRow:[feedIDs objectAtIndex:indexPath.row]];
+        [self loadFeedIDs];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                         withRowAnimation:UITableViewRowAnimationFade];
+    }   
+}
 
 #pragma mark -
 #pragma mark Memory management
