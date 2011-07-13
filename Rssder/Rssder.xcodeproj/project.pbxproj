@@ -22,6 +22,7 @@
 		CE7E1B3713CDE62600A3BFB0 /* back-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7E1B3313CDE62600A3BFB0 /* back-arrow@2x.png */; };
 		CE7E1B3813CDE62600A3BFB0 /* forward-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7E1B3413CDE62600A3BFB0 /* forward-arrow.png */; };
 		CE7E1B3913CDE62600A3BFB0 /* forward-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7E1B3513CDE62600A3BFB0 /* forward-arrow@2x.png */; };
+		CEA0D00913CDF9C9000A25AF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CEA0D00813CDF9C9000A25AF /* Settings.bundle */; };
 		CEA522BF13C001CA007385CD /* RssderAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA522BE13C001CA007385CD /* RssderAddViewController.xib */; };
 		CEEDA1B613BA48EB00990A81 /* Rssder.db in Resources */ = {isa = PBXBuildFile; fileRef = CEEDA1B513BA48EB00990A81 /* Rssder.db */; };
 		CEEDA1C113BA4A0000990A81 /* BWDB.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEDA1BA13BA4A0000990A81 /* BWDB.m */; };
@@ -53,6 +54,7 @@
 		CE7E1B3313CDE62600A3BFB0 /* back-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-arrow@2x.png"; sourceTree = "<group>"; };
 		CE7E1B3413CDE62600A3BFB0 /* forward-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward-arrow.png"; sourceTree = "<group>"; };
 		CE7E1B3513CDE62600A3BFB0 /* forward-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward-arrow@2x.png"; sourceTree = "<group>"; };
+		CEA0D00813CDF9C9000A25AF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CEA522BE13C001CA007385CD /* RssderAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RssderAddViewController.xib; sourceTree = "<group>"; };
 		CEEDA1B513BA48EB00990A81 /* Rssder.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rssder.db; sourceTree = "<group>"; };
 		CEEDA1B913BA4A0000990A81 /* BWDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWDB.h; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				CEA0D00813CDF9C9000A25AF /* Settings.bundle */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -256,6 +259,7 @@
 				CE7E1B3713CDE62600A3BFB0 /* back-arrow@2x.png in Resources */,
 				CE7E1B3813CDE62600A3BFB0 /* forward-arrow.png in Resources */,
 				CE7E1B3913CDE62600A3BFB0 /* forward-arrow@2x.png in Resources */,
+				CEA0D00913CDF9C9000A25AF /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
