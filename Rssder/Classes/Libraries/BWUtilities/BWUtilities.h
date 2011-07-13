@@ -7,7 +7,7 @@
 //
 
 static NSString * const kBWUtilitiesVersion = @"1.0.5";
-static NSString * const kAlertTitle = @"BW Sandbox";
+static NSString * const kAlertTitle = @"Rssder";
 static BOOL const kMessageActive = YES;
 
 // populated from loadDidView

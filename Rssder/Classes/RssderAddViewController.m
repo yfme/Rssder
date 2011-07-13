@@ -132,7 +132,7 @@ static BOOL haveBGColor;
 }
 
 - (void) haveFeed {
-    NSLog(@"%s, %@", __FUNCTION__, feedRecord);
+    // NSLog(@"%s, %@", __FUNCTION__, feedRecord);
     // default values
     if (![feedRecord objectForKey:kTitleElementName])
         [feedRecord setValue:self.feedHost forKey:kTitleElementName];
@@ -143,8 +143,8 @@ static BOOL haveBGColor;
     [feedRecord setValue:trimString(flattenHTML([self.feedRecord valueForKey:kDescriptionElementName])) forKey:kDescriptionKey];
     [feedRecord removeObjectForKey:kDescriptionElementName];    // not a database column
     
-    // [delegate haveAddViewRecord:feedRecord];
-    // [self dismissModalViewControllerAnimated:YES];
+    [delegate haveAddViewRecord:feedRecord];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)parseRSSHeader {
@@ -255,7 +255,7 @@ static BOOL haveBGColor;
             [self findFeedURL];
             break;
         case BWRSS_STATE_PARSE_HEADER:
-            NSLog(@"have RSS feed header (%d bytes)",[xmlData length]);
+            // NSLog(@"have RSS feed header (%d bytes)",[xmlData length]);
             [self parseRSSHeader];
             break;
         default:

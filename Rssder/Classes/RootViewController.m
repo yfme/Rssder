@@ -74,15 +74,36 @@
 #pragma mark RssderAddViewControllerDelegate methods
 
 -(void) haveAddViewRecord:(NSDictionary *) avRecord {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s %@", __FUNCTION__, avRecord);
+    static NSString * const kTitleKey = @"title";
+    if ([rssDB addFeedRow:avRecord]) {
+        alertMessage(@"Updated %@", [avRecord valueForKey:kTitleKey]);
+    } else {
+        alertMessage(@"Added %@", [avRecord valueForKey:kTitleKey]);
+    }
+    
+    [self.tableView reloadData];
 }
 
 -(void) haveAddViewURLError:(NSError *) error {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s %@", __FUNCTION__, error);
+    NSString *errorMessage = [error localizedDescription];
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"URL Error" message:errorMessage delegate:nil
+                              cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
--(void) haveAddViewRSSError:(NSString *) message {
-    NSLog(@"%s", __FUNCTION__);
+-(void) haveAddViewRSSError:(NSString *)message {
+    // NSLog(@"%s %@", __FUNCTION__, message);
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"RSS Error"
+                              message:message delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark -
