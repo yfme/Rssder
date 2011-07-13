@@ -132,7 +132,7 @@ static BOOL haveBGColor;
 }
 
 - (void) haveFeed {
-    // NSLog(@"%s, %@", __FUNCTION__, feedRecord);
+    NSLog(@"%s, %@", __FUNCTION__, feedRecord);
     // default values
     if (![feedRecord objectForKey:kTitleElementName])
         [feedRecord setValue:self.feedHost forKey:kTitleElementName];
@@ -143,8 +143,8 @@ static BOOL haveBGColor;
     [feedRecord setValue:trimString(flattenHTML([self.feedRecord valueForKey:kDescriptionElementName])) forKey:kDescriptionKey];
     [feedRecord removeObjectForKey:kDescriptionElementName];    // not a database column
     
-    [delegate haveAddViewRecord:feedRecord];
-    [self dismissModalViewControllerAnimated:YES];
+    // [delegate haveAddViewRecord:feedRecord];
+    // [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)parseRSSHeader {
@@ -256,7 +256,7 @@ static BOOL haveBGColor;
             break;
         case BWRSS_STATE_PARSE_HEADER:
             NSLog(@"have RSS feed header (%d bytes)",[xmlData length]);
-            // [self parseRSSHeader];
+            [self parseRSSHeader];
             break;
         default:
             NSAssert(0, @"invalid bwrssState");
@@ -279,6 +279,81 @@ static BOOL haveBGColor;
         [self handleURLError:error];
     }
     self.feedConnection = nil;
+}
+
+#pragma mark -
+#pragma mark NSXMLParser delegate methods
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    // NSLog(@"%s", __FUNCTION__);
+    // reset the environment
+    [self statusMessage:@"Parsing %@", self.feedURL];
+    NSMutableDictionary *o = [[NSMutableDictionary alloc] init];
+    [o setValue:feedURL forKey:kUrlKey];
+    haveTitle = haveDescripton = FALSE;
+    didReturnFeed = FALSE;
+    self.feedRecord = o;
+    [o release];
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
+  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+    attributes:(NSDictionary *)attributeDict {
+    // NSLog(@"%s, %@", __FUNCTION__, elementName);
+    if ([elementName isEqualToString:kTitleElementName] || [elementName isEqualToString:kDescriptionElementName]) {
+        currentElement = elementName;
+        [self.feedRecord removeObjectForKey:currentElement];
+    } else if ([elementName isEqualToString:kItemElementName]) {
+        didAbortParsing = TRUE;
+        [parser abortParsing];
+    } else {
+        currentElement = nil;
+    }
+    
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
+  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    // NSLog(@"%s, %@", __FUNCTION__, elementName);
+    if ([elementName isEqualToString:kTitleElementName]) {
+        haveTitle = TRUE;
+    } else if ([elementName isEqualToString:kDescriptionElementName]) {
+        haveDescripton = TRUE;
+    }
+    
+    if (haveTitle && haveDescripton) {
+        didAbortParsing = TRUE;
+        [parser abortParsing];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    // NSLog(@"%s", __FUNCTION__);
+    if ([currentElement isEqualToString:kTitleElementName] || [currentElement isEqualToString:kDescriptionElementName]) {
+        if ([self.feedRecord objectForKey:currentElement]) {
+            [self.feedRecord setValue:[(NSString *)[self.feedRecord objectForKey:currentElement] stringByAppendingString:string]
+                               forKey:currentElement];
+        } else {
+            [self.feedRecord setValue:string forKey:currentElement];
+        }
+    }
+}
+
+
+// abortParsing raises an error, so we usually end here
+// warning: may be called more than once (hence, didReturnFeed)
+- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    // NSLog(@"%s %@", __FUNCTION__, [parseError localizedDescription]);
+    if (didAbortParsing && !didReturnFeed) {
+        didReturnFeed = TRUE;
+        [self haveFeed];
+    }
+}
+
+// not norally called -- we will usually end with abortParsing
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    // NSLog(@"%s", __FUNCTION__);
+    [self haveFeed];
 }
 
 #pragma mark -
