@@ -55,12 +55,12 @@ static NSString * const kDBItemUrlKey = @"url";
 }
 
 - (IBAction) launchSafari:(id)sender {
-    NSLog(@"%s", __FUNCTION__);
+    // NSLog(@"%s", __FUNCTION__);
     // to load original page in Safari
     // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[feedItem valueForKey:kDBItemUrlKey]]];
     
     // to load current page in Safari
-    // [[UIApplication sharedApplication] openURL:[[myWebView request] URL]];
+    [[UIApplication sharedApplication] openURL:[[myWebView request] URL]];
 }
 
 #pragma mark -
