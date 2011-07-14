@@ -115,6 +115,36 @@ static NSString * const kDBFeedDescKey = @"desc";
 }
 
 #pragma mark -
+#pragma mark Support for shake gesture
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self resignFirstResponder];
+    [super viewWillDisappear:animated];
+}
+
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+-(BOOL)canResignFirstResponder
+{
+    return YES;
+}
+
+-(void) motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        // NSLog(@"got a shake event");
+        [self loadRSSFeed];
+    }
+}
+
+#pragma mark -
 #pragma mark Support methods
 
 - (void) loadRSSFeed {
