@@ -33,7 +33,20 @@ static NSString * const kDBFeedDescKey = @"desc";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadRSSFeed];
+    // [self loadRSSFeed];
+    
+    if (_refreshHeaderView == nil) {
+		
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		view.delegate = self;
+		[self.tableView addSubview:view];
+		_refreshHeaderView = view;
+		[view release];
+		
+	}
+	
+	//  update the last update date
+	[_refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -107,11 +120,13 @@ static NSString * const kDBFeedDescKey = @"desc";
 - (void)viewDidUnload {
     [super viewDidUnload];
     self.itemRowIDs = nil;
+    _refreshHeaderView=nil;
 }
 
 - (void)dealloc {
     [super dealloc];
     if(feedRecord) [feedRecord release];
+    _refreshHeaderView=nil;
 }
 
 #pragma mark -
@@ -153,6 +168,8 @@ static NSString * const kDBFeedDescKey = @"desc";
     self.rssConnection = [[[NSURLConnection alloc] initWithRequest:rssURLRequest delegate:self] autorelease];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSAssert(self.rssConnection != nil, @"Could not create URL connection.");
+    
+    _reloading = YES;
 }
 
 // --> This method runs in the secondary thread <-- 
@@ -198,6 +215,7 @@ static NSString * const kDBFeedDescKey = @"desc";
                            nil]];
     }
     self.itemRowIDs = [rssDB getItemIDs:self.feedID];
+    [self doneLoadingTableViewData];
     [self.tableView reloadData];
 }
 
@@ -442,6 +460,54 @@ static NSString * const kDCDateElementName = @"dc:date";
     [alertView show];
     [alertView release];
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+	
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self loadRSSFeed];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return _reloading; // should return if data source model is reloading
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; // should return date data source was last changed
+	
 }
 
 @end

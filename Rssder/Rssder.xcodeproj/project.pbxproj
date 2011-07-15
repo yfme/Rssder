@@ -24,6 +24,8 @@
 		CE7E1B3913CDE62600A3BFB0 /* forward-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7E1B3513CDE62600A3BFB0 /* forward-arrow@2x.png */; };
 		CEA0D00913CDF9C9000A25AF /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CEA0D00813CDF9C9000A25AF /* Settings.bundle */; };
 		CEA522BF13C001CA007385CD /* RssderAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA522BE13C001CA007385CD /* RssderAddViewController.xib */; };
+		CEE9A90A13CFF4C000F8C90B /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE9A90913CFF4BF00F8C90B /* EGORefreshTableHeaderView.m */; };
+		CEE9A90C13D00A1400F8C90B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE9A90B13D00A1400F8C90B /* QuartzCore.framework */; };
 		CEEDA1B613BA48EB00990A81 /* Rssder.db in Resources */ = {isa = PBXBuildFile; fileRef = CEEDA1B513BA48EB00990A81 /* Rssder.db */; };
 		CEEDA1C113BA4A0000990A81 /* BWDB.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEDA1BA13BA4A0000990A81 /* BWDB.m */; };
 		CEEDA1C213BA4A0000990A81 /* BWUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEDA1BD13BA4A0000990A81 /* BWUtilities.m */; };
@@ -56,6 +58,9 @@
 		CE7E1B3513CDE62600A3BFB0 /* forward-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward-arrow@2x.png"; sourceTree = "<group>"; };
 		CEA0D00813CDF9C9000A25AF /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		CEA522BE13C001CA007385CD /* RssderAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RssderAddViewController.xib; sourceTree = "<group>"; };
+		CEE9A90813CFF4BF00F8C90B /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		CEE9A90913CFF4BF00F8C90B /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		CEE9A90B13D00A1400F8C90B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CEEDA1B513BA48EB00990A81 /* Rssder.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rssder.db; sourceTree = "<group>"; };
 		CEEDA1B913BA4A0000990A81 /* BWDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWDB.h; sourceTree = "<group>"; };
 		CEEDA1BA13BA4A0000990A81 /* BWDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWDB.m; sourceTree = "<group>"; };
@@ -74,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE9A90C13D00A1400F8C90B /* QuartzCore.framework in Frameworks */,
 				CE42286113B90A34007BD65B /* libsqlite3.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -87,6 +93,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEE9A90D13D0114800F8C90B /* EGOTableViewPullRefresh */,
 				CEEDA1C413BA540F00990A81 /* RssderItemViewController.h */,
 				CEEDA1C513BA540F00990A81 /* RssderItemViewController.m */,
 				CEEDA1B713BA4A0000990A81 /* Libraries */,
@@ -153,11 +160,21 @@
 			isa = PBXGroup;
 			children = (
 				CE42285913B90996007BD65B /* libsqlite3.dylib */,
+				CEE9A90B13D00A1400F8C90B /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEE9A90D13D0114800F8C90B /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				CEE9A90813CFF4BF00F8C90B /* EGORefreshTableHeaderView.h */,
+				CEE9A90913CFF4BF00F8C90B /* EGORefreshTableHeaderView.m */,
+			);
+			name = EGOTableViewPullRefresh;
 			sourceTree = "<group>";
 		};
 		CEEDA1B713BA4A0000990A81 /* Libraries */ = {
@@ -279,6 +296,7 @@
 				CEEDA1C613BA541000990A81 /* RssderItemViewController.m in Sources */,
 				CEEFFCF213BCF85A00E3EFE6 /* RssderAddViewController.m in Sources */,
 				CE7E1B2F13CDE01E00A3BFB0 /* RssderWebViewController.m in Sources */,
+				CEE9A90A13CFF4C000F8C90B /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

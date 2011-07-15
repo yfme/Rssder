@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "RSSDB.h"
 #import "RssderWebViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RssderItemViewController : UITableViewController <NSXMLParserDelegate> {
+@interface RssderItemViewController : UITableViewController <NSXMLParserDelegate, EGORefreshTableHeaderDelegate> {
     RSSDB *rssDB;
     NSNumber *feedID;
     NSDictionary *feedRecord;
@@ -29,6 +30,9 @@
     NSMutableDictionary *currentFeedObject;
     BOOL accumulatingParsedCharacterData;
     BOOL didAbortParsing;
+    
+    EGORefreshTableHeaderView *_refreshHeaderView;
+    BOOL _reloading;
 }
 
 @property (nonatomic, retain) RSSDB *rssDB;
@@ -57,5 +61,7 @@
 
 // Support methods
 - (void) loadRSSFeed;
+
+- (void) doneLoadingTableViewData;
 
 @end
